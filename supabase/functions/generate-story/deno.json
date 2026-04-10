@@ -1,0 +1,9 @@
+{
+    "tasks": {
+        "start": "deno run --allow-net --allow-read --allow-env index.ts"
+    },
+    "imports": {
+        "npm:@google/generative-ai": "npm:@google/generative-ai@^0.21.0",
+        "npm:@supabase/supabase-js@2": "https://esm.sh/@supabase/supabase-js@2"
+    }
+}

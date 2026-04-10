@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "113569449412",
+    "project_id": "myitihas-app",
+    "storage_bucket": "myitihas-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:113569449412:android:9ed108fb214165fcc99091",
+        "android_client_info": {
+          "package_name": "com.myitihas.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "113569449412-ku75jogkorrifkan0el8c4p1o8jvo037.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myitihas.app",
+            "certificate_hash": "674f8014a952a638ddb19ac49563a2d9ede8be01"
+          }
+        },
+        {
+          "client_id": "113569449412-7b2bv26qskeamh2oqrr8e9vs5kgomh5r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkSd0QVVrB6Ol7QwfVIYYwrv3SrfGhNaQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "113569449412-7b2bv26qskeamh2oqrr8e9vs5kgomh5r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "113569449412-06mcnbatdk01i1mtkjg6o97mche83uti.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.myitihas.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

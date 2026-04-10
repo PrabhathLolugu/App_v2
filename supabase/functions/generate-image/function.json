@@ -1,0 +1,5 @@
+{
+    "name": "generate-image",
+    "version": "1.0.0",
+    "description": "Generate images for stories using Gemini AI and upload to Supabase Storage"
+}

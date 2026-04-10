@@ -1,0 +1,5 @@
+{
+    "name": "translation",
+    "version": "1.0.0",
+    "description": "Multi-language story translation using Gemini Structured Output"
+}

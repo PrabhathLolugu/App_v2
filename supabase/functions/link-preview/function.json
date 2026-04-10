@@ -1,0 +1,5 @@
+{
+  "runtime": "deno/v1.40.0",
+  "entrypoint": "index.ts",
+  "verify": false
+}

@@ -1,0 +1,41 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "myitihas-app",
+                    "appId": "1:113569449412:android:9ed108fb214165fcc99091",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "ios": {
+                "default": {
+                    "projectId": "myitihas-app",
+                    "appId": "1:113569449412:ios:541885dbaed5546ac99091",
+                    "uploadDebugSymbols": false,
+                    "fileOutput": "ios/Runner/GoogleService-Info.plist"
+                }
+            },
+            "macos": {
+                "default": {
+                    "projectId": "myitihas-app",
+                    "appId": "1:113569449412:ios:bee7c251adc893c6c99091",
+                    "uploadDebugSymbols": false,
+                    "fileOutput": "macos/Runner/GoogleService-Info.plist"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "myitihas-app",
+                    "configurations": {
+                        "android": "1:113569449412:android:9ed108fb214165fcc99091",
+                        "ios": "1:113569449412:ios:541885dbaed5546ac99091",
+                        "macos": "1:113569449412:ios:bee7c251adc893c6c99091",
+                        "web": "1:113569449412:web:48482f6300bacb95c99091",
+                        "windows": "1:113569449412:web:0625bffaac89a35dc99091"
+                    }
+                }
+            }
+        }
+    }
+}

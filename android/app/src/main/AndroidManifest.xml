@@ -1,0 +1,174 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+        <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+        <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+            android:maxSdkVersion="32" />
+        <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+        <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+        <uses-permission android:name="android.permission.CAMERA" />
+        <uses-permission android:name="android.permission.RECORD_AUDIO" />
+        <uses-permission android:name="android.permission.INTERNET" />
+        <!-- FCM Push Notification Permission (Android 13+) -->
+        <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    
+        <application
+            android:label="MyItihas"
+            android:name="${applicationName}"
+            android:icon="@mipmap/ic_launcher">
+             <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyDWMVK2lE2TNVK7v3gNH3OiLTV4f3PSLFA"/>
+            <!-- FCM Default Notification Channel -->
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_channel_id"
+                android:value="myitihas_notifications" />
+            <!-- FCM Default Notification Icon (use launcher icon for brand consistency) -->
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_icon"
+                android:resource="@mipmap/ic_launcher" />
+            <!-- FCM Default Notification Color -->
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_color"
+                android:resource="@color/notification_color" />
+            <!-- Required by image_cropper for crop screen (avoids crash on crop) -->
+            <activity
+                android:name="com.yalantis.ucrop.UCropActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            <activity
+                android:name=".MainActivity"
+                android:exported="true"
+                android:launchMode="singleTop"
+                android:taskAffinity=""
+                android:theme="@style/LaunchTheme"
+                android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+                android:hardwareAccelerated="true"
+                android:windowSoftInputMode="adjustResize">
+                
+                <!-- Specifies an Android theme to apply to this Activity as soon as
+                     the Android process has started. This theme is visible to the user
+                     while the Flutter UI initializes. After that, this theme continues
+                     to determine the Window background behind the Flutter UI. -->
+               
+    
+                <intent-filter>
+                    <action android:name="android.intent.action.MAIN" />
+                    <category android:name="android.intent.category.LAUNCHER" />
+                </intent-filter>
+                <intent-filter android:autoVerify="true">
+                    <action android:name="android.intent.action.VIEW" />
+    
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="android.intent.category.BROWSABLE" />
+    
+                    <data
+                        android:scheme="myitihas"
+                        android:host="login-callback" />
+                </intent-filter>
+                <intent-filter android:autoVerify="true">
+                    <action android:name="android.intent.action.VIEW" />
+    
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="android.intent.category.BROWSABLE" />
+    
+                    <data
+                        android:scheme="myitihas"
+                        android:host="reset-password" />
+                </intent-filter>
+                <!-- App Links for shareable content (HTTPS deep linking) -->
+                <intent-filter android:autoVerify="true">
+                    <action android:name="android.intent.action.VIEW" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="android.intent.category.BROWSABLE" />
+                    <data
+                        android:scheme="https"
+                        android:host="myitihas.com"
+                        android:pathPrefix="/post" />
+                    <data
+                        android:scheme="https"
+                        android:host="www.myitihas.com"
+                        android:pathPrefix="/post" />
+                </intent-filter>
+                <intent-filter android:autoVerify="true">
+                    <action android:name="android.intent.action.VIEW" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="android.intent.category.BROWSABLE" />
+                    <data
+                        android:scheme="https"
+                        android:host="myitihas.com"
+                        android:pathPrefix="/story" />
+                    <data
+                        android:scheme="https"
+                        android:host="www.myitihas.com"
+                        android:pathPrefix="/story" />
+                </intent-filter>
+                <intent-filter android:autoVerify="true">
+                    <action android:name="android.intent.action.VIEW" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="android.intent.category.BROWSABLE" />
+                    <data
+                        android:scheme="https"
+                        android:host="myitihas.com"
+                        android:pathPrefix="/video" />
+                    <data
+                        android:scheme="https"
+                        android:host="www.myitihas.com"
+                        android:pathPrefix="/video" />
+                </intent-filter>
+                <!-- Custom-scheme fallback for content links -->
+                <intent-filter>
+                    <action android:name="android.intent.action.VIEW" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="android.intent.category.BROWSABLE" />
+                    <data
+                        android:scheme="myitihas"
+                        android:host="post" />
+                </intent-filter>
+                <intent-filter>
+                    <action android:name="android.intent.action.VIEW" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="android.intent.category.BROWSABLE" />
+                    <data
+                        android:scheme="myitihas"
+                        android:host="story" />
+                </intent-filter>
+                <intent-filter>
+                    <action android:name="android.intent.action.VIEW" />
+                    <category android:name="android.intent.category.DEFAULT" />
+                    <category android:name="android.intent.category.BROWSABLE" />
+                    <data
+                        android:scheme="myitihas"
+                        android:host="video" />
+                </intent-filter>
+            </activity>
+            <!-- Don't delete the meta-data below.
+                 This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+            <meta-data
+                android:name="flutterEmbedding"
+                android:value="2" />
+        </application>
+        <!-- Required to query activities that can process text, see:
+             https://developer.android.com/training/package-visibility and
+             https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
+    
+             In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
+        <queries>
+            <intent>
+                <action android:name="android.intent.action.PROCESS_TEXT" />
+                <data android:mimeType="text/plain" />
+            </intent>
+            <intent>
+                <action android:name="android.intent.action.VIEW" />
+                <data android:scheme="https" />
+            </intent>
+            <intent>
+                <action android:name="android.intent.action.VIEW" />
+                <data android:scheme="http" />
+            </intent>
+            <intent>
+                <action android:name="android.intent.action.SENDTO" />
+                <data android:scheme="mailto" />
+            </intent>
+        </queries>
+    </manifest>

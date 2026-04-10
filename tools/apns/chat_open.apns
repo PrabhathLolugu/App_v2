@@ -1,0 +1,17 @@
+{
+  "Simulator Target Bundle": "com.sachit.myitihas",
+  "aps": {
+    "alert": {
+      "title": "Test: Chat notification",
+      "body": "Tap to open chat thread"
+    },
+    "sound": "default"
+  },
+  "notification_type": "message",
+  "conversation_id": "test_conversation_123",
+  "sender_id": "test_sender_1",
+  "sender_name": "Test Sender",
+  "sender_avatar_url": "",
+  "is_group": "false"
+}
+

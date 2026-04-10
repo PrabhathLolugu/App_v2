@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme. -->
+    <style name="Theme.MyItihas" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/glass_blue</item>
+        <item name="colorPrimaryDark">@color/glass_blue_dark</item>
+        <item name="colorAccent">@color/glass_blue_light</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/glass_bg</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/glass_bg</item>
+        <item name="android:navigationBarColor">@color/glass_bg</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

@@ -1,0 +1,15 @@
+{
+  "Simulator Target Bundle": "com.sachit.myitihas",
+  "aps": {
+    "alert": {
+      "title": "Test: Post notification",
+      "body": "Tap to open post detail"
+    },
+    "sound": "default"
+  },
+  "notification_type": "like",
+  "entity_type": "post",
+  "entity_id": "00000000-0000-0000-0000-000000000001",
+  "content_type": "image"
+}
+

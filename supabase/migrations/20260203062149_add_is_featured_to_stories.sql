@@ -1,0 +1,1 @@
+ALTER TABLE public.stories ADD COLUMN IF NOT EXISTS is_featured BOOLEAN DEFAULT false NOT NULL; CREATE INDEX IF NOT EXISTS idx_stories_is_featured ON public.stories(is_featured) WHERE is_featured = true; COMMENT ON COLUMN public.stories.is_featured IS 'Indicates if this story is featured on the home screen';;

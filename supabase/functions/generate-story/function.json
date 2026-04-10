@@ -1,0 +1,28 @@
+{
+    "name": "generate-story",
+    "description": "Generates educational stories from Indian scriptures using Gemini AI",
+    "version": "1.0.0",
+    "runtime": "deno",
+    "entrypoint": "index.ts",
+    "importMap": "../import_map.json",
+    "env": {
+        "GEMINI_API_KEY": "required",
+        "SUPABASE_URL": "auto",
+        "SUPABASE_SERVICE_ROLE_KEY": "auto"
+    },
+    "cors": {
+        "allowOrigins": [
+            "*"
+        ],
+        "allowMethods": [
+            "POST",
+            "OPTIONS"
+        ],
+        "allowHeaders": [
+            "authorization",
+            "x-client-info",
+            "apikey",
+            "content-type"
+        ]
+    }
+}

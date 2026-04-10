@@ -1,0 +1,15 @@
+{
+  "Simulator Target Bundle": "com.sachit.myitihas",
+  "aps": {
+    "alert": {
+      "title": "Test: Video notification",
+      "body": "Tap to open video post"
+    },
+    "sound": "default"
+  },
+  "notification_type": "comment",
+  "entity_type": "post",
+  "entity_id": "00000000-0000-0000-0000-000000000002",
+  "content_type": "video"
+}
+

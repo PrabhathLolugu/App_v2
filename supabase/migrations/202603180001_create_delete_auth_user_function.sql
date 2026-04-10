@@ -1,0 +1,10 @@
+-- NOTE: Supabase auth.users table is managed by their platform and cannot be deleted
+-- directly from user functions due to role-based access controls.
+-- This is intentional and prevents accidental deletion of auth infrastructure.
+-- 
+-- Account deletion is complete when:
+-- 1. User data is deleted (profiles, messages, files, etc.)
+-- 2. Auth sessions/identities are deleted
+-- 3. User cannot log in
+--
+-- The auth.users record will be handled by Supabase's internal cleanup processes.

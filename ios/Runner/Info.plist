@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>CADisableMinimumFrameDurationOnPhone</key>
+		<true />
+		<key>CFBundleDevelopmentRegion</key>
+		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>CFBundleDisplayName</key>
+		<string>Myitihas</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>myitihas</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(FLUTTER_BUILD_NAME)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>myitihas</string>
+				</array>
+			</dict>
+			<dict>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>com.googleusercontent.apps.113569449412-dv70svheficelkgcbj7svockmurp1u89</string>
+				</array>
+			</dict>
+		</array>
+		<key>GIDClientID</key>
+		<string>113569449412-dv70svheficelkgcbj7svockmurp1u89.apps.googleusercontent.com</string>
+		<key>GIDServerClientID</key>
+		<string>113569449412-7b2bv26qskeamh2oqrr8e9vs5kgomh5r.apps.googleusercontent.com</string>
+		<key>CFBundleVersion</key>
+		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>LSRequiresIPhoneOS</key>
+		<true />
+		<key>NSCameraUsageDescription</key>
+		<string>We need access to your camera to take a profile picture</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>MyItihas needs location access to guide your pilgrimage.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>MyItihas needs location access to guide your pilgrimage and show your position on the Akhanda Bharata map.</string>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>MyItihas needs location access to show your position on the Akhanda Bharata map.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>We need access to your photo library to update your profile picture</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>MyItihas uses the microphone for voice input when you use speech-to-text in stories and chat.</string>
+		<key>NSSpeechRecognitionUsageDescription</key>
+		<string>MyItihas uses speech recognition so you can speak to generate or search content.</string>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true />
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+		<key>UIMainStoryboardFile</key>
+		<string>Main</string>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>io.flutter.embedded_views_preview</key>
+		<true />
+		<key>NSUserActivityTypes</key>
+		<array>
+			<string>INSendMessageIntent</string>
+			<string>INStartCallIntent</string>
+		</array>
+	</dict>
+</plist>
