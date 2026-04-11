@@ -12,10 +12,10 @@ import 'package:myitihas/services/supabase_service.dart';
 // ═══════════════════════════════════════════════════════════════════════════
 //  SplashScreen — MyItihas  │  "LIVING COSMOS" Edition
 //
-//  Brand gradient: #44009F (deep violet) → #0088FF (electric blue)
+//  Brand gradient: glass blue / cobalt / indigo
 //
-//  DARK  theme: near-black void (#07030F) — violet/indigo nebula — blue glow
-//  LIGHT theme: soft pearl white (#F5F0FF) — violet ink — blue shimmer
+//  DARK  theme: midnight blue glass — cobalt nebula — blue glow
+//  LIGHT theme: frosted glass blue — cobalt ink — blue shimmer
 //
 //  Animation Choreography (2 900 ms):
 //   0.00–0.22  Background blooms from center — nebula gradient expands
@@ -72,26 +72,26 @@ class _SplashScreenState extends State<SplashScreen>
   bool _navigating = false;
 
   // ════════════════════════════════════════════════════════════════════════
-  //  SPLASH PALETTE  — neutral black/white glass only
+  //  SPLASH PALETTE  — glass blue on midnight/frosted backdrops
   // ════════════════════════════════════════════════════════════════════════
 
-  // Core neutral tones (theme-independent)
-  static const Color brandViolet = Color(0xFFE6E6E6);
-  static const Color brandBlue = Color(0xFFCCCCCC);
-  static const Color brandMid = Color(0xFF9E9E9E);
-  static const Color brandLavender = Color(0xFFF2F2F2);
-  static const Color brandSky = Color(0xFFB8B8B8);
-  static const Color brandPeriwink = Color(0xFFDCDCDC);
+  // Core glass-blue tones (theme-independent)
+  static const Color brandViolet = Color(0xFF1E40AF);
+  static const Color brandBlue = Color(0xFF0088FF);
+  static const Color brandMid = Color(0xFF38BDF8);
+  static const Color brandLavender = Color(0xFF93C5FD);
+  static const Color brandSky = Color(0xFF60A5FA);
+  static const Color brandPeriwink = Color(0xFFCFE8FF);
 
-  // ── Glass neutral palette (title / tagline / loader) ──────────────────
-  static const Color glassBlueLight = Color(0xFFF7F7F7);
-  static const Color glassBlue = Color(0xFFE3E3E3);
-  static const Color glassBlueMid = Color(0xFFBFBFBF);
-  static const Color glassBlueDeep = Color(0xFF8D8D8D);
-  static const Color glassBlueGlow = Color(0xFFEAEAEA);
+  // ── Glass blue palette (title / tagline / loader) ─────────────────────
+  static const Color glassBlueLight = Color(0xFFEAF7FF);
+  static const Color glassBlue = Color(0xFFD6F0FA);
+  static const Color glassBlueMid = Color(0xFF93C5FD);
+  static const Color glassBlueDeep = Color(0xFF1D4ED8);
+  static const Color glassBlueGlow = Color(0xFFBAE6FD);
 
   // ── DARK theme ────────────────────────────────────────────────────────────
-  static const Color dkBg = Color(0xFF070707);
+  static const Color dkBg = Color(0xFF0A0A0F);
   static const Color dkSurface = Color(0xFF101010);
   static const Color dkPrimary = Color(0xFFE5E5E5);
   static const Color dkPrimaryBright = Color(0xFFF2F2F2);
@@ -104,7 +104,7 @@ class _SplashScreenState extends State<SplashScreen>
   static const Color dkMuted = Color(0xFF9C9C9C);
 
   // ── LIGHT theme ───────────────────────────────────────────────────────────
-  static const Color ltBg = Color(0xFFFFFFFF);
+  static const Color ltBg = Color(0xFFF8FAFC);
   static const Color ltSurface = Color(0xFFF3F3F3);
   static const Color ltPrimary = Color(0xFF2A2A2A);
   static const Color ltPrimaryBright = Color(0xFF555555);
@@ -125,7 +125,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
 
     _masterC = AnimationController(
-      duration: const Duration(milliseconds: 2900),
+      duration: const Duration(milliseconds: 3200),
       vsync: this,
     );
 
@@ -386,186 +386,101 @@ class _NebulaBgPainter extends CustomPainter {
     final rect = Offset.zero & size;
     final w = size.width;
     final h = size.height;
-    final cx = w / 2;
-    final cy = h / 2;
+    final blue = isDark ? _SplashScreenState.brandBlue : _SplashScreenState.brandBlue;
+    final meshBlue = isDark ? _SplashScreenState.brandViolet : _SplashScreenState.brandBlue;
+    final s = math.sin;
+    final pi = math.pi;
 
-    if (isDark) {
+    canvas.drawRect(
+      rect,
+      Paint()
+        ..shader = LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: isDark
+              ? const [
+                  Color(0xFF0A0A0F),
+                  Color(0xFF0C1422),
+                  Color(0xFF101B2D),
+                  Color(0xFF0A0A0F),
+                ]
+              : const [
+                  Color(0xFFF8FAFC),
+                  Color(0xFFF0F7FE),
+                  Color(0xFFE5F1FB),
+                  Color(0xFFDCEBFA),
+                ],
+          stops: const [0.0, 0.34, 0.68, 1.0],
+        ).createShader(rect),
+    );
+
+    _blob(
+      canvas,
+      size,
+      cx: w * (0.82 + 0.07 * s(t * pi)),
+      cy: h * (0.08 + 0.04 * s(t * pi * 0.7)),
+      r: w * 0.62,
+      color: blue.withOpacity(isDark ? 0.10 : 0.08),
+    );
+
+    _blob(
+      canvas,
+      size,
+      cx: w * (0.12 + 0.05 * s(t * pi * 1.2)),
+      cy: h * (0.80 + 0.06 * s(t * pi * 0.9)),
+      r: w * 0.70,
+      color: meshBlue.withOpacity(isDark ? 0.08 : 0.05),
+    );
+
+    if (t > 0.10) {
       canvas.drawRect(
         rect,
         Paint()
           ..shader = RadialGradient(
-            center: Alignment.center,
-            radius: 1.3,
-            colors: const [
-              Color(0xFF131313),
-              Color(0xFF0C0C0C),
-              Color(0xFF070707),
-              Color(0xFF030303),
+            center: const Alignment(0.0, -0.16),
+            radius: 0.82 * t + 0.08,
+            colors: [
+              _SplashScreenState.brandBlue.withOpacity(0.10 * t),
+              _SplashScreenState.brandSky.withOpacity(0.05 * t),
+              Colors.transparent,
             ],
-            stops: const [0.0, 0.35, 0.65, 1.0],
+            stops: const [0.0, 0.48, 1.0],
           ).createShader(rect),
       );
-
-      if (t > 0.04) {
-        canvas.drawRect(
-          rect,
-          Paint()
-            ..shader = RadialGradient(
-              center: const Alignment(0.0, -0.05),
-              radius: 0.85 * t + 0.08,
-              colors: [
-                _SplashScreenState.brandViolet.withOpacity(0.22 * t),
-                _SplashScreenState.brandMid.withOpacity(0.10 * t),
-                Colors.transparent,
-              ],
-              stops: const [0.0, 0.45, 1.0],
-            ).createShader(rect),
-        );
-
-        canvas.drawRect(
-          rect,
-          Paint()
-            ..shader = RadialGradient(
-              center: const Alignment(0.35, 0.20),
-              radius: 0.60 * t + 0.05,
-              colors: [
-                _SplashScreenState.brandBlue.withOpacity(0.16 * t),
-                _SplashScreenState.dkSecDim.withOpacity(0.08 * t),
-                Colors.transparent,
-              ],
-              stops: const [0.0, 0.5, 1.0],
-            ).createShader(rect),
-        );
-
-        canvas.drawRect(
-          rect,
-          Paint()
-            ..shader = RadialGradient(
-              center: const Alignment(-0.40, 0.15),
-              radius: 0.45 * t + 0.04,
-              colors: [
-                _SplashScreenState.dkAccent.withOpacity(0.10 * t),
-                Colors.transparent,
-              ],
-            ).createShader(rect),
-        );
-
-        canvas.drawRect(
-          rect,
-          Paint()
-            ..shader = RadialGradient(
-              center: Alignment.center,
-              radius: 0.38,
-              colors: [
-                _SplashScreenState.brandLavender.withOpacity(0.14 * t),
-                _SplashScreenState.brandBlue.withOpacity(0.06 * t),
-                Colors.transparent,
-              ],
-              stops: const [0.0, 0.55, 1.0],
-            ).createShader(rect),
-        );
-      }
-
-      if (t > 0.40) {
-        final ga = ((t - 0.40) / 0.60).clamp(0.0, 1.0) * 0.07;
-        final vp = Offset(cx, cy * 0.84);
-        const hLines = 10;
-        for (int i = 0; i < hLines; i++) {
-          final y = h * 0.50 + h * 0.50 * (i / (hLines - 1));
-          canvas.drawLine(
-            Offset(0, y),
-            Offset(w, y),
-            Paint()
-              ..color = _SplashScreenState.dkSecDim.withOpacity(ga)
-              ..strokeWidth = 0.45,
-          );
-        }
-        const vLines = 14;
-        for (int i = 0; i < vLines; i++) {
-          canvas.drawLine(
-            Offset(w * i / (vLines - 1), h * 0.50),
-            vp,
-            Paint()
-              ..color = _SplashScreenState.dkPrimaryDim.withOpacity(ga * 0.7)
-              ..strokeWidth = 0.30,
-          );
-        }
-      }
-    } else {
-      canvas.drawRect(
-        rect,
-        Paint()
-          ..shader = LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: const [
-              Color(0xFFFFFFFF),
-              Color(0xFFF9F9F9),
-              Color(0xFFF2F2F2),
-              Color(0xFFEBEBEB),
-            ],
-            stops: const [0.0, 0.35, 0.65, 1.0],
-          ).createShader(rect),
-      );
-
-      if (t > 0.05) {
-        canvas.drawRect(
-          rect,
-          Paint()
-            ..shader = RadialGradient(
-              center: const Alignment(0.0, -0.20),
-              radius: 0.75 * t + 0.08,
-              colors: [
-                _SplashScreenState.brandViolet.withOpacity(0.12 * t),
-                _SplashScreenState.ltPrimaryBright.withOpacity(0.06 * t),
-                Colors.transparent,
-              ],
-              stops: const [0.0, 0.50, 1.0],
-            ).createShader(rect),
-        );
-
-        canvas.drawRect(
-          rect,
-          Paint()
-            ..shader = RadialGradient(
-              center: const Alignment(0.45, 0.30),
-              radius: 0.50 * t + 0.05,
-              colors: [
-                _SplashScreenState.brandBlue.withOpacity(0.10 * t),
-                Colors.transparent,
-              ],
-            ).createShader(rect),
-        );
-      }
-
-      if (t > 0.35) {
-        final da = ((t - 0.35) / 0.65).clamp(0.0, 1.0) * 0.18;
-        const spacing = 30.0;
-        for (double gx = spacing / 2; gx < w; gx += spacing) {
-          for (double gy = spacing / 2; gy < h; gy += spacing) {
-            canvas.drawCircle(
-              Offset(gx, gy),
-              1.0,
-              Paint()..color = _SplashScreenState.brandViolet.withOpacity(da),
-            );
-          }
-        }
-      }
     }
 
     if (t > 0.10) {
       final rng = math.Random((grain * 1000).toInt());
-      final grainA = isDark ? 0.022 : 0.010;
+      final grainA = isDark ? 0.020 : 0.012;
       for (int i = 0; i < 550; i++) {
         canvas.drawCircle(
           Offset(rng.nextDouble() * w, rng.nextDouble() * h),
           rng.nextDouble() * 0.75 + 0.2,
           Paint()
-            ..color = (isDark ? Colors.white : _SplashScreenState.brandViolet)
+            ..color = (isDark ? Colors.white : Colors.black)
                 .withOpacity(grainA * rng.nextDouble()),
         );
       }
     }
+  }
+
+  void _blob(
+    Canvas canvas,
+    Size size, {
+    required double cx,
+    required double cy,
+    required double r,
+    required Color color,
+  }) {
+    canvas.drawCircle(
+      Offset(cx, cy),
+      r,
+      Paint()
+        ..shader = RadialGradient(
+          colors: [color, Colors.transparent],
+          stops: const [0.0, 1.0],
+        ).createShader(Rect.fromCircle(center: Offset(cx, cy), radius: r)),
+    );
   }
 
   @override
