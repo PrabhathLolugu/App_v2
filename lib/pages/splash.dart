@@ -1,4 +1,4 @@
-import 'dart:math' as math;
+﻿import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -8,29 +8,30 @@ import 'package:myitihas/config/routes.dart';
 import 'package:myitihas/core/presentation/bloc/connectivity_bloc.dart';
 import 'package:myitihas/core/presentation/bloc/connectivity_state.dart';
 import 'package:myitihas/services/supabase_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-// ═══════════════════════════════════════════════════════════════════════════
-//  SplashScreen — MyItihas  │  "LIVING COSMOS" Edition
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+//  SplashScreen ΓÇö MyItihas  Γöé  "LIVING COSMOS" Edition
 //
-//  Brand gradient: glass blue / cobalt / indigo
+//  Brand gradient: #44009F (deep violet) ΓåÆ #0088FF (electric blue)
 //
-//  DARK  theme: midnight blue glass — cobalt nebula — blue glow
-//  LIGHT theme: frosted glass blue — cobalt ink — blue shimmer
+//  DARK  theme: near-black void (#07030F) ΓÇö violet/indigo nebula ΓÇö blue glow
+//  LIGHT theme: soft pearl white (#F5F0FF) ΓÇö violet ink ΓÇö blue shimmer
 //
 //  Animation Choreography (2 900 ms):
-//   0.00–0.22  Background blooms from center — nebula gradient expands
-//   0.10–0.45  Sacred Yantra geometry draws itself stroke-by-stroke
-//   0.18–0.50  280-particle galaxy-arm cloud settles
-//   0.25–0.62  Ouroboros triple ring expands (violet / blue / periwinkle)
-//   0.30–0.62  Logo implodes from scattered light → solid form
-//   0.40–0.72  14 language orbs spiral in from scatter → stable orbit
-//   0.58–0.78  App name — ink-bleed character reveal  [GLASS BLUE]
-//   0.72–0.88  Ornamental lotus divider scribes outward
-//   0.83–0.97  Tagline words bloom in one-by-one       [GLASS BLUE]
-//   0.88–1.00  Final glow and handoff to route
+//   0.00ΓÇô0.22  Background blooms from center ΓÇö nebula gradient expands
+//   0.10ΓÇô0.45  Sacred Yantra geometry draws itself stroke-by-stroke
+//   0.18ΓÇô0.50  280-particle galaxy-arm cloud settles
+//   0.25ΓÇô0.62  Ouroboros triple ring expands (violet / blue / periwinkle)
+//   0.30ΓÇô0.62  Logo implodes from scattered light ΓåÆ solid form
+//   0.40ΓÇô0.72  14 language orbs spiral in from scatter ΓåÆ stable orbit
+//   0.58ΓÇô0.78  App name ΓÇö ink-bleed character reveal  [GLASS BLUE]
+//   0.72ΓÇô0.88  Ornamental lotus divider scribes outward
+//   0.83ΓÇô0.97  Tagline words bloom in one-by-one       [GLASS BLUE]
+//   0.88ΓÇô1.00  Final glow and handoff to route
 //
 //  Continuous: logo heartbeat, orbital drift, nebula shimmer, grain flicker
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -41,7 +42,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
-  // ── Controllers ──────────────────────────────────────────────────────────
+  // ΓöÇΓöÇ Controllers ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
   late final AnimationController _masterC;
   late final AnimationController _breatheC;
   late final AnimationController _orbitC;
@@ -50,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen>
   late final AnimationController _grainC;
   late final AnimationController _exitC;
 
-  // ── Master timeline ───────────────────────────────────────────────────────
+  // ΓöÇΓöÇ Master timeline ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
   late final Animation<double> _nebulaBirth;
   late final Animation<double> _yantriDraw;
   late final Animation<double> _particleSettle;
@@ -63,7 +64,7 @@ class _SplashScreenState extends State<SplashScreen>
   late final Animation<double> _taglineBloom;
   late final Animation<double> _finaleGlow;
 
-  // ── Continuous ────────────────────────────────────────────────────────────
+  // ΓöÇΓöÇ Continuous ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
   late final Animation<double> _breathe;
   late final Animation<double> _ringPulse;
   late final Animation<double> _exitFade;
@@ -71,27 +72,27 @@ class _SplashScreenState extends State<SplashScreen>
   bool _animDone = false;
   bool _navigating = false;
 
-  // ════════════════════════════════════════════════════════════════════════
-  //  SPLASH PALETTE  — glass blue on midnight/frosted backdrops
-  // ════════════════════════════════════════════════════════════════════════
+  // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+  //  SPLASH PALETTE  ΓÇö neutral black/white glass only
+  // ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 
-  // Core glass-blue tones (theme-independent)
-  static const Color brandViolet = Color(0xFF1E40AF);
-  static const Color brandBlue = Color(0xFF0088FF);
-  static const Color brandMid = Color(0xFF38BDF8);
-  static const Color brandLavender = Color(0xFF93C5FD);
-  static const Color brandSky = Color(0xFF60A5FA);
-  static const Color brandPeriwink = Color(0xFFCFE8FF);
+  // Core neutral tones (theme-independent)
+  static const Color brandViolet = Color(0xFFE6E6E6);
+  static const Color brandBlue = Color(0xFFCCCCCC);
+  static const Color brandMid = Color(0xFF9E9E9E);
+  static const Color brandLavender = Color(0xFFF2F2F2);
+  static const Color brandSky = Color(0xFFB8B8B8);
+  static const Color brandPeriwink = Color(0xFFDCDCDC);
 
-  // ── Glass blue palette (title / tagline / loader) ─────────────────────
-  static const Color glassBlueLight = Color(0xFFEAF7FF);
-  static const Color glassBlue = Color(0xFFD6F0FA);
-  static const Color glassBlueMid = Color(0xFF93C5FD);
-  static const Color glassBlueDeep = Color(0xFF1D4ED8);
-  static const Color glassBlueGlow = Color(0xFFBAE6FD);
+  // ΓöÇΓöÇ Glass neutral palette (title / tagline / loader) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  static const Color glassBlueLight = Color(0xFFF7F7F7);
+  static const Color glassBlue = Color(0xFFE3E3E3);
+  static const Color glassBlueMid = Color(0xFFBFBFBF);
+  static const Color glassBlueDeep = Color(0xFF8D8D8D);
+  static const Color glassBlueGlow = Color(0xFFEAEAEA);
 
-  // ── DARK theme ────────────────────────────────────────────────────────────
-  static const Color dkBg = Color(0xFF1A365A);
+  // ΓöÇΓöÇ DARK theme ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  static const Color dkBg = Color(0xFF070707);
   static const Color dkSurface = Color(0xFF101010);
   static const Color dkPrimary = Color(0xFFE5E5E5);
   static const Color dkPrimaryBright = Color(0xFFF2F2F2);
@@ -103,8 +104,8 @@ class _SplashScreenState extends State<SplashScreen>
   static const Color dkWhite = Color(0xFFF4F4F4);
   static const Color dkMuted = Color(0xFF9C9C9C);
 
-  // ── LIGHT theme ───────────────────────────────────────────────────────────
-  static const Color ltBg = Color(0xFFF8FAFC);
+  // ΓöÇΓöÇ LIGHT theme ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+  static const Color ltBg = Color(0xFFFFFFFF);
   static const Color ltSurface = Color(0xFFF3F3F3);
   static const Color ltPrimary = Color(0xFF2A2A2A);
   static const Color ltPrimaryBright = Color(0xFF555555);
@@ -125,7 +126,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
 
     _masterC = AnimationController(
-      duration: const Duration(milliseconds: 3200),
+      duration: const Duration(milliseconds: 2900),
       vsync: this,
     );
 
@@ -190,9 +191,11 @@ class _SplashScreenState extends State<SplashScreen>
     );
     if (!online) return;
     _navigating = true;
-    _exitC.forward().then((_) {
+    _exitC.forward().then((_) async {
       if (!mounted) return;
       // Router redirect keeps splash for unauthenticated users only.
+      final prefs = await SharedPreferences.getInstance();
+      await MyItihasRouter.markSplashSeen(prefs);
       const WelcomeRoute().go(context);
     });
   }
@@ -233,7 +236,7 @@ class _SplashScreenState extends State<SplashScreen>
           ]),
           builder: (ctx, _) => Stack(
             children: [
-              // 0 ── Gradient nebula background ─────────────────────────────
+              // 0 ΓöÇΓöÇ Gradient nebula background ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
               Positioned.fill(
                 child: CustomPaint(
                   painter: _NebulaBgPainter(
@@ -244,7 +247,7 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
 
-              // 1 ── Sacred Yantra geometry ──────────────────────────────────
+              // 1 ΓöÇΓöÇ Sacred Yantra geometry ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
               Positioned.fill(
                 child: CustomPaint(
                   painter: _YantraPainter(
@@ -255,7 +258,7 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
 
-              // 2 ── Particle cloud ──────────────────────────────────────────
+              // 2 ΓöÇΓöÇ Particle cloud ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
               Positioned.fill(
                 child: CustomPaint(
                   painter: _NebulaPainter(
@@ -266,7 +269,7 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
 
-              // 3 ── Ouroboros rings ─────────────────────────────────────────
+              // 3 ΓöÇΓöÇ Ouroboros rings ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
               Positioned.fill(
                 child: CustomPaint(
                   painter: _OuroborosPainter(
@@ -279,7 +282,7 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
 
-              // 4 ── Language script orbs ────────────────────────────────────
+              // 4 ΓöÇΓöÇ Language script orbs ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
               Positioned.fill(
                 child: CustomPaint(
                   painter: _LanguageOrbPainter(
@@ -292,7 +295,7 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
 
-              // 5 ── Light scatter imploding into logo ───────────────────────
+              // 5 ΓöÇΓöÇ Light scatter imploding into logo ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
               Positioned.fill(
                 child: CustomPaint(
                   painter: _LightScatterPainter(
@@ -302,7 +305,7 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
 
-              // 6 ── Logo with glow + heartbeat ──────────────────────────────
+              // 6 ΓöÇΓöÇ Logo with glow + heartbeat ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
               Center(
                 child: Transform.translate(
                   offset: Offset(0, -6 + _breathe.value * 5.0),
@@ -321,7 +324,7 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
 
-              // 7 ── Brand text ──────────────────────────────────────────────
+              // 7 ΓöÇΓöÇ Brand text ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
               Align(
                 alignment: const Alignment(0, 0.62),
                 child: Column(
@@ -346,10 +349,10 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
 
-              // 8 ── Connectivity hint ───────────────────────────────────────
+              // 8 ΓöÇΓöÇ Connectivity hint ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
               _ConnectivityHint(finaleAlpha: _finaleGlow.value, isDark: isDark),
 
-              // 9 ── Exit veil ──────────────────────────────────────────────
+              // 9 ΓöÇΓöÇ Exit veil ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
               if (_exitFade.value > 0)
                 Positioned.fill(
                   child: IgnorePointer(
@@ -368,9 +371,9 @@ class _SplashScreenState extends State<SplashScreen>
   }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 //  NEBULA BACKGROUND
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 class _NebulaBgPainter extends CustomPainter {
   final double t;
   final double grain;
@@ -386,128 +389,195 @@ class _NebulaBgPainter extends CustomPainter {
     final rect = Offset.zero & size;
     final w = size.width;
     final h = size.height;
-    final blue = _SplashScreenState.brandBlue;
-    final meshBlue = isDark
-      ? _SplashScreenState.brandSky
-      : _SplashScreenState.brandViolet;
-    final s = math.sin;
-    final pi = math.pi;
-
-    canvas.drawRect(
-      rect,
-      Paint()
-        ..shader = LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: isDark
-              ? const [
-                  Color(0xFF2A4E7A),
-                  Color(0xFF2E5C90),
-                  Color(0xFF3B6CA1),
-                  Color(0xFF285581),
-                ]
-              : const [
-                  Color(0xFFF8FAFC),
-                  Color(0xFFF0F7FE),
-                  Color(0xFFE5F1FB),
-                  Color(0xFFDCEBFA),
-                ],
-          stops: const [0.0, 0.34, 0.68, 1.0],
-        ).createShader(rect),
-    );
-
-    _blob(
-      canvas,
-      size,
-      cx: w * (0.78 + 0.08 * s(t * pi)),
-      cy: h * (0.12 + 0.05 * s(t * pi * 0.7)),
-      r: w * 0.86,
-      color: blue.withOpacity(isDark ? 0.24 : 0.10),
-    );
-
-    _blob(
-      canvas,
-      size,
-      cx: w * (0.18 + 0.07 * s(t * pi * 1.2)),
-      cy: h * (0.84 + 0.06 * s(t * pi * 0.9)),
-      r: w * 0.94,
-      color: meshBlue.withOpacity(isDark ? 0.18 : 0.08),
-    );
-
-    _blob(
-      canvas,
-      size,
-      cx: w * 0.48,
-      cy: h * 0.46,
-      r: w * 0.98,
-      color: _SplashScreenState.brandSky.withOpacity(isDark ? 0.12 : 0.05),
-    );
+    final cx = w / 2;
+    final cy = h / 2;
 
     if (isDark) {
       canvas.drawRect(
         rect,
-        Paint()..color = _SplashScreenState.brandBlue.withOpacity(0.16),
+        Paint()
+          ..shader = RadialGradient(
+            center: Alignment.center,
+            radius: 1.3,
+            colors: const [
+              Color(0xFF131313),
+              Color(0xFF0C0C0C),
+              Color(0xFF070707),
+              Color(0xFF030303),
+            ],
+            stops: const [0.0, 0.35, 0.65, 1.0],
+          ).createShader(rect),
       );
-    }
 
-    if (t > 0.10) {
+      if (t > 0.04) {
+        canvas.drawRect(
+          rect,
+          Paint()
+            ..shader = RadialGradient(
+              center: const Alignment(0.0, -0.05),
+              radius: 0.85 * t + 0.08,
+              colors: [
+                _SplashScreenState.brandViolet.withOpacity(0.22 * t),
+                _SplashScreenState.brandMid.withOpacity(0.10 * t),
+                Colors.transparent,
+              ],
+              stops: const [0.0, 0.45, 1.0],
+            ).createShader(rect),
+        );
+
+        canvas.drawRect(
+          rect,
+          Paint()
+            ..shader = RadialGradient(
+              center: const Alignment(0.35, 0.20),
+              radius: 0.60 * t + 0.05,
+              colors: [
+                _SplashScreenState.brandBlue.withOpacity(0.16 * t),
+                _SplashScreenState.dkSecDim.withOpacity(0.08 * t),
+                Colors.transparent,
+              ],
+              stops: const [0.0, 0.5, 1.0],
+            ).createShader(rect),
+        );
+
+        canvas.drawRect(
+          rect,
+          Paint()
+            ..shader = RadialGradient(
+              center: const Alignment(-0.40, 0.15),
+              radius: 0.45 * t + 0.04,
+              colors: [
+                _SplashScreenState.dkAccent.withOpacity(0.10 * t),
+                Colors.transparent,
+              ],
+            ).createShader(rect),
+        );
+
+        canvas.drawRect(
+          rect,
+          Paint()
+            ..shader = RadialGradient(
+              center: Alignment.center,
+              radius: 0.38,
+              colors: [
+                _SplashScreenState.brandLavender.withOpacity(0.14 * t),
+                _SplashScreenState.brandBlue.withOpacity(0.06 * t),
+                Colors.transparent,
+              ],
+              stops: const [0.0, 0.55, 1.0],
+            ).createShader(rect),
+        );
+      }
+
+      if (t > 0.40) {
+        final ga = ((t - 0.40) / 0.60).clamp(0.0, 1.0) * 0.07;
+        final vp = Offset(cx, cy * 0.84);
+        const hLines = 10;
+        for (int i = 0; i < hLines; i++) {
+          final y = h * 0.50 + h * 0.50 * (i / (hLines - 1));
+          canvas.drawLine(
+            Offset(0, y),
+            Offset(w, y),
+            Paint()
+              ..color = _SplashScreenState.dkSecDim.withOpacity(ga)
+              ..strokeWidth = 0.45,
+          );
+        }
+        const vLines = 14;
+        for (int i = 0; i < vLines; i++) {
+          canvas.drawLine(
+            Offset(w * i / (vLines - 1), h * 0.50),
+            vp,
+            Paint()
+              ..color = _SplashScreenState.dkPrimaryDim.withOpacity(ga * 0.7)
+              ..strokeWidth = 0.30,
+          );
+        }
+      }
+    } else {
       canvas.drawRect(
         rect,
         Paint()
-          ..shader = RadialGradient(
-            center: const Alignment(0.0, -0.16),
-            radius: 0.82 * t + 0.08,
-            colors: [
-              _SplashScreenState.brandBlue.withOpacity((isDark ? 0.24 : 0.10) * t),
-              _SplashScreenState.brandSky.withOpacity((isDark ? 0.14 : 0.05) * t),
-              Colors.transparent,
+          ..shader = LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: const [
+              Color(0xFFFFFFFF),
+              Color(0xFFF9F9F9),
+              Color(0xFFF2F2F2),
+              Color(0xFFEBEBEB),
             ],
-            stops: const [0.0, 0.48, 1.0],
+            stops: const [0.0, 0.35, 0.65, 1.0],
           ).createShader(rect),
       );
+
+      if (t > 0.05) {
+        canvas.drawRect(
+          rect,
+          Paint()
+            ..shader = RadialGradient(
+              center: const Alignment(0.0, -0.20),
+              radius: 0.75 * t + 0.08,
+              colors: [
+                _SplashScreenState.brandViolet.withOpacity(0.12 * t),
+                _SplashScreenState.ltPrimaryBright.withOpacity(0.06 * t),
+                Colors.transparent,
+              ],
+              stops: const [0.0, 0.50, 1.0],
+            ).createShader(rect),
+        );
+
+        canvas.drawRect(
+          rect,
+          Paint()
+            ..shader = RadialGradient(
+              center: const Alignment(0.45, 0.30),
+              radius: 0.50 * t + 0.05,
+              colors: [
+                _SplashScreenState.brandBlue.withOpacity(0.10 * t),
+                Colors.transparent,
+              ],
+            ).createShader(rect),
+        );
+      }
+
+      if (t > 0.35) {
+        final da = ((t - 0.35) / 0.65).clamp(0.0, 1.0) * 0.18;
+        const spacing = 30.0;
+        for (double gx = spacing / 2; gx < w; gx += spacing) {
+          for (double gy = spacing / 2; gy < h; gy += spacing) {
+            canvas.drawCircle(
+              Offset(gx, gy),
+              1.0,
+              Paint()..color = _SplashScreenState.brandViolet.withOpacity(da),
+            );
+          }
+        }
+      }
     }
 
     if (t > 0.10) {
       final rng = math.Random((grain * 1000).toInt());
-      final grainA = isDark ? 0.020 : 0.012;
+      final grainA = isDark ? 0.022 : 0.010;
       for (int i = 0; i < 550; i++) {
         canvas.drawCircle(
           Offset(rng.nextDouble() * w, rng.nextDouble() * h),
           rng.nextDouble() * 0.75 + 0.2,
           Paint()
-            ..color = (isDark ? Colors.white : Colors.black)
+            ..color = (isDark ? Colors.white : _SplashScreenState.brandViolet)
                 .withOpacity(grainA * rng.nextDouble()),
         );
       }
     }
   }
 
-  void _blob(
-    Canvas canvas,
-    Size size, {
-    required double cx,
-    required double cy,
-    required double r,
-    required Color color,
-  }) {
-    canvas.drawCircle(
-      Offset(cx, cy),
-      r,
-      Paint()
-        ..shader = RadialGradient(
-          colors: [color, Colors.transparent],
-          stops: const [0.0, 1.0],
-        ).createShader(Rect.fromCircle(center: Offset(cx, cy), radius: r)),
-    );
-  }
-
   @override
   bool shouldRepaint(_NebulaBgPainter o) => o.t != t || o.grain != grain;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 //  SACRED YANTRA GEOMETRY
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 class _YantraPainter extends CustomPainter {
   final double t;
   final double pulse;
@@ -622,9 +692,9 @@ class _YantraPainter extends CustomPainter {
   bool shouldRepaint(_YantraPainter o) => o.t != t || o.pulse != pulse;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 //  NEBULA PARTICLE CLOUD
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 class _NebulaPainter extends CustomPainter {
   final double settle;
   final double drift;
@@ -695,9 +765,9 @@ class _NebulaPainter extends CustomPainter {
       o.settle != settle || o.drift != drift;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 //  OUROBOROS TRIPLE RING
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 class _OuroborosPainter extends CustomPainter {
   final double expand;
   final double pulse;
@@ -820,9 +890,9 @@ class _OuroborosPainter extends CustomPainter {
       o.expand != expand || o.pulse != pulse || o.rotation != rotation;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 //  LANGUAGE SCRIPT ORB DATA
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 class _LangOrb {
   final Color core;
   final Color highlight;
@@ -839,19 +909,19 @@ class _LanguageOrbPainter extends CustomPainter {
 
   static const _orbs = [
     _LangOrb(Color(0xFF5500CC), Color(0xFF9966FF), 'A'),
-    _LangOrb(Color(0xFF0055EE), Color(0xFF4499FF), 'अ'),
-    _LangOrb(Color(0xFF7711BB), Color(0xFFBB77FF), 'அ'),
-    _LangOrb(Color(0xFF3300AA), Color(0xFF7755EE), 'అ'),
-    _LangOrb(Color(0xFF0077DD), Color(0xFF55BBFF), 'অ'),
-    _LangOrb(Color(0xFF6622AA), Color(0xFFAA66EE), 'म'),
-    _LangOrb(Color(0xFF0044CC), Color(0xFF4488FF), 'અ'),
-    _LangOrb(Color(0xFF4400BB), Color(0xFF8844FF), 'ಅ'),
-    _LangOrb(Color(0xFF0066CC), Color(0xFF44AAFF), 'അ'),
-    _LangOrb(Color(0xFF5511BB), Color(0xFF9966EE), 'ਅ'),
-    _LangOrb(Color(0xFF2233CC), Color(0xFF6677FF), 'ଅ'),
-    _LangOrb(Color(0xFF330088), Color(0xFF7744CC), 'ا'),
-    _LangOrb(Color(0xFF8800BB), Color(0xFFCC55EE), 'ॐ'),
-    _LangOrb(Color(0xFF0099EE), Color(0xFF44CCFF), 'আ'),
+    _LangOrb(Color(0xFF0055EE), Color(0xFF4499FF), 'αñà'),
+    _LangOrb(Color(0xFF7711BB), Color(0xFFBB77FF), 'α«à'),
+    _LangOrb(Color(0xFF3300AA), Color(0xFF7755EE), 'α░à'),
+    _LangOrb(Color(0xFF0077DD), Color(0xFF55BBFF), 'αªà'),
+    _LangOrb(Color(0xFF6622AA), Color(0xFFAA66EE), 'αñ«'),
+    _LangOrb(Color(0xFF0044CC), Color(0xFF4488FF), 'α¬à'),
+    _LangOrb(Color(0xFF4400BB), Color(0xFF8844FF), 'α▓à'),
+    _LangOrb(Color(0xFF0066CC), Color(0xFF44AAFF), 'α┤à'),
+    _LangOrb(Color(0xFF5511BB), Color(0xFF9966EE), 'α¿à'),
+    _LangOrb(Color(0xFF2233CC), Color(0xFF6677FF), 'α¼à'),
+    _LangOrb(Color(0xFF330088), Color(0xFF7744CC), '╪º'),
+    _LangOrb(Color(0xFF8800BB), Color(0xFFCC55EE), 'αÑÉ'),
+    _LangOrb(Color(0xFF0099EE), Color(0xFF44CCFF), 'αªå'),
   ];
 
   const _LanguageOrbPainter({
@@ -982,9 +1052,9 @@ class _LanguageOrbPainter extends CustomPainter {
       o.stabilize != stabilize || o.rotation != rotation || o.pulse != pulse;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 //  LIGHT SCATTER
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 class _LightScatterPainter extends CustomPainter {
   final double t;
   final bool isDark;
@@ -1038,9 +1108,9 @@ class _LightScatterPainter extends CustomPainter {
   bool shouldRepaint(_LightScatterPainter o) => o.t != t;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 //  PREMIUM LOGO
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 class _PremiumLogo extends StatelessWidget {
   final double size;
   final double glow;
@@ -1175,9 +1245,9 @@ class _BrandRingPainter extends CustomPainter {
   bool shouldRepaint(_BrandRingPainter o) => o.alpha != alpha;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-//  INK-BLEED TITLE  ── GLASS BLUE
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+//  INK-BLEED TITLE  ΓöÇΓöÇ GLASS BLUE
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 class _InkBleedTitle extends StatelessWidget {
   final String text;
   final double progress;
@@ -1206,7 +1276,7 @@ class _InkBleedTitle extends StatelessWidget {
               blendMode: BlendMode.srcIn,
               shaderCallback: (b) =>
                   (isDark
-                          // Dark: icy glass blue highlight → core glass blue → deeper
+                          // Dark: icy glass blue highlight ΓåÆ core glass blue ΓåÆ deeper
                           ? const LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
@@ -1217,7 +1287,7 @@ class _InkBleedTitle extends StatelessWidget {
                               ],
                               stops: [0.0, 0.45, 1.0],
                             )
-                          // Light: deep glass blue ink → mid → bright
+                          // Light: deep glass blue ink ΓåÆ mid ΓåÆ bright
                           : const LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
@@ -1247,9 +1317,9 @@ class _InkBleedTitle extends StatelessWidget {
   }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 //  ORNAMENTAL LOTUS DIVIDER
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 class _OrnamentalDivider extends StatelessWidget {
   final double progress;
   final bool isDark;
@@ -1343,9 +1413,9 @@ class _OrnamentalPainter extends CustomPainter {
   bool shouldRepaint(_OrnamentalPainter o) => o.p != p;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-//  WORD-BLOOM TAGLINE  ── GLASS BLUE
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+//  WORD-BLOOM TAGLINE  ΓöÇΓöÇ GLASS BLUE
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 class _WordBloomTagline extends StatelessWidget {
   final double progress;
   final bool isDark;
@@ -1353,7 +1423,7 @@ class _WordBloomTagline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const words = ['YOUR', 'CULTURE', '·', 'YOUR', 'WAY'];
+    const words = ['YOUR', 'CULTURE', '┬╖', 'YOUR', 'WAY'];
 
     // Glass blue replaces previous violet/muted text and brandSky/brandBlue accent
     final textColor = isDark
@@ -1386,7 +1456,7 @@ class _WordBloomTagline extends StatelessWidget {
                   fontSize: 9.5,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 3.5,
-                  color: (word == '·' ? accentColor : textColor).withOpacity(
+                  color: (word == '┬╖' ? accentColor : textColor).withOpacity(
                     wordP,
                   ),
                 ),
@@ -1399,10 +1469,10 @@ class _WordBloomTagline extends StatelessWidget {
   }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 //  CONNECTIVITY HINT
-// ═══════════════════════════════════════════════════════════════════════════
+// ΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉΓòÉ
 class _ConnectivityHint extends StatelessWidget {
   final double finaleAlpha;
   final bool isDark;
@@ -1432,7 +1502,7 @@ class _ConnectivityHint extends StatelessWidget {
                 Icon(Icons.wifi_off_rounded, size: 11, color: color),
                 const SizedBox(width: 5),
                 Text(
-                  'Waiting for connection…',
+                  'Waiting for connectionΓÇª',
                   style: TextStyle(
                     fontSize: 10,
                     letterSpacing: 1.8,

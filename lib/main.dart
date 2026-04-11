@@ -152,6 +152,9 @@ Future<void> main() async {
     () => PeopleConnectSuggestionStorageService(storage),
   );
 
+  // Configure first-launch splash gating before creating the router.
+  MyItihasRouter.configureSplashPreference(storage);
+
   // IMPORTANT: Create router FIRST to register refreshStream
   // This must happen before starting deep link listener
   final GoRouter router = MyItihasRouter().router;

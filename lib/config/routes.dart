@@ -80,6 +80,7 @@ import 'package:myitihas/profile/edit_profile_screen/edit_profile_screen.dart';
 import 'package:myitihas/profile/profile_image_viewer.dart';
 import 'package:myitihas/services/post_service.dart';
 import 'package:myitihas/services/supabase_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'routes.g.dart';
 
@@ -414,6 +415,19 @@ class EditProfileRoute extends GoRouteData with $EditProfileRoute {
 // MyItihasRouter - GoRouter Configuration
 // ============================================================================
 class MyItihasRouter {
+  static const String splashSeenPreferenceKey = 'has_seen_initial_splash';
+  static bool _hasSeenInitialSplash = false;
+
+  static void configureSplashPreference(SharedPreferences storage) {
+    _hasSeenInitialSplash =
+        storage.getBool(splashSeenPreferenceKey) ?? false;
+  }
+
+  static Future<void> markSplashSeen(SharedPreferences storage) async {
+    _hasSeenInitialSplash = true;
+    await storage.setBool(splashSeenPreferenceKey, true);
+  }
+
   final GoRouterRefreshStream _refreshStream = GoRouterRefreshStream();
   static final GlobalKey<NavigatorState> rootNavigatorKey =
       GlobalKey<NavigatorState>();
@@ -456,8 +470,10 @@ class MyItihasRouter {
 
       // Splash screen should be shown only for unauthenticated users.
       // Signed-in users land directly on the social tab.
+      // Unauthenticated users see splash only on their first app launch.
       if (isOnSplash) {
-        return isAuthenticated ? '/home?tab=2' : null;
+        if (isAuthenticated) return '/home?tab=2';
+        return _hasSeenInitialSplash ? '/welcome' : null;
       }
 
       // Reset password page without recovery mode
