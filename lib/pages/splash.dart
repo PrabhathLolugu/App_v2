@@ -91,7 +91,7 @@ class _SplashScreenState extends State<SplashScreen>
   static const Color glassBlueGlow = Color(0xFFBAE6FD);
 
   // ── DARK theme ────────────────────────────────────────────────────────────
-  static const Color dkBg = Color(0xFF0A0A0F);
+  static const Color dkBg = Color(0xFF1A365A);
   static const Color dkSurface = Color(0xFF101010);
   static const Color dkPrimary = Color(0xFFE5E5E5);
   static const Color dkPrimaryBright = Color(0xFFF2F2F2);
@@ -401,10 +401,10 @@ class _NebulaBgPainter extends CustomPainter {
           end: Alignment.bottomRight,
           colors: isDark
               ? const [
-                  Color(0xFF0E1628),
-                  Color(0xFF13243A),
-                  Color(0xFF1A2E46),
-                  Color(0xFF0F1D33),
+                  Color(0xFF2A4E7A),
+                  Color(0xFF2E5C90),
+                  Color(0xFF3B6CA1),
+                  Color(0xFF285581),
                 ]
               : const [
                   Color(0xFFF8FAFC),
@@ -419,25 +419,34 @@ class _NebulaBgPainter extends CustomPainter {
     _blob(
       canvas,
       size,
-      cx: w * (0.82 + 0.07 * s(t * pi)),
-      cy: h * (0.08 + 0.04 * s(t * pi * 0.7)),
-      r: w * 0.62,
-      color: blue.withOpacity(isDark ? 0.18 : 0.09),
+      cx: w * (0.78 + 0.08 * s(t * pi)),
+      cy: h * (0.12 + 0.05 * s(t * pi * 0.7)),
+      r: w * 0.86,
+      color: blue.withOpacity(isDark ? 0.24 : 0.10),
     );
 
     _blob(
       canvas,
       size,
-      cx: w * (0.12 + 0.05 * s(t * pi * 1.2)),
-      cy: h * (0.80 + 0.06 * s(t * pi * 0.9)),
-      r: w * 0.70,
-      color: meshBlue.withOpacity(isDark ? 0.14 : 0.06),
+      cx: w * (0.18 + 0.07 * s(t * pi * 1.2)),
+      cy: h * (0.84 + 0.06 * s(t * pi * 0.9)),
+      r: w * 0.94,
+      color: meshBlue.withOpacity(isDark ? 0.18 : 0.08),
+    );
+
+    _blob(
+      canvas,
+      size,
+      cx: w * 0.48,
+      cy: h * 0.46,
+      r: w * 0.98,
+      color: _SplashScreenState.brandSky.withOpacity(isDark ? 0.12 : 0.05),
     );
 
     if (isDark) {
       canvas.drawRect(
         rect,
-        Paint()..color = _SplashScreenState.brandBlue.withOpacity(0.06),
+        Paint()..color = _SplashScreenState.brandBlue.withOpacity(0.16),
       );
     }
 
@@ -449,8 +458,8 @@ class _NebulaBgPainter extends CustomPainter {
             center: const Alignment(0.0, -0.16),
             radius: 0.82 * t + 0.08,
             colors: [
-              _SplashScreenState.brandBlue.withOpacity((isDark ? 0.18 : 0.10) * t),
-              _SplashScreenState.brandSky.withOpacity((isDark ? 0.10 : 0.05) * t),
+              _SplashScreenState.brandBlue.withOpacity((isDark ? 0.24 : 0.10) * t),
+              _SplashScreenState.brandSky.withOpacity((isDark ? 0.14 : 0.05) * t),
               Colors.transparent,
             ],
             stops: const [0.0, 0.48, 1.0],

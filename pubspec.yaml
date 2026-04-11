@@ -2,7 +2,7 @@ name: myitihas
 description: "MyItihas - Explore Indian heritage, history, and sacred sites through curated stories, interactive maps, and personalized AI-powered narratives."
 publish_to: 'none'
 
-version: 1.0.3+11
+version: 1.0.4+12
 
 environment:
   sdk: ^3.10.0
