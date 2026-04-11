@@ -386,8 +386,10 @@ class _NebulaBgPainter extends CustomPainter {
     final rect = Offset.zero & size;
     final w = size.width;
     final h = size.height;
-    final blue = isDark ? _SplashScreenState.brandBlue : _SplashScreenState.brandBlue;
-    final meshBlue = isDark ? _SplashScreenState.brandViolet : _SplashScreenState.brandBlue;
+    final blue = _SplashScreenState.brandBlue;
+    final meshBlue = isDark
+      ? _SplashScreenState.brandSky
+      : _SplashScreenState.brandViolet;
     final s = math.sin;
     final pi = math.pi;
 
@@ -399,10 +401,10 @@ class _NebulaBgPainter extends CustomPainter {
           end: Alignment.bottomRight,
           colors: isDark
               ? const [
-                  Color(0xFF0A0A0F),
-                  Color(0xFF0C1422),
-                  Color(0xFF101B2D),
-                  Color(0xFF0A0A0F),
+                  Color(0xFF0E1628),
+                  Color(0xFF13243A),
+                  Color(0xFF1A2E46),
+                  Color(0xFF0F1D33),
                 ]
               : const [
                   Color(0xFFF8FAFC),
@@ -420,7 +422,7 @@ class _NebulaBgPainter extends CustomPainter {
       cx: w * (0.82 + 0.07 * s(t * pi)),
       cy: h * (0.08 + 0.04 * s(t * pi * 0.7)),
       r: w * 0.62,
-      color: blue.withOpacity(isDark ? 0.10 : 0.08),
+      color: blue.withOpacity(isDark ? 0.18 : 0.09),
     );
 
     _blob(
@@ -429,8 +431,15 @@ class _NebulaBgPainter extends CustomPainter {
       cx: w * (0.12 + 0.05 * s(t * pi * 1.2)),
       cy: h * (0.80 + 0.06 * s(t * pi * 0.9)),
       r: w * 0.70,
-      color: meshBlue.withOpacity(isDark ? 0.08 : 0.05),
+      color: meshBlue.withOpacity(isDark ? 0.14 : 0.06),
     );
+
+    if (isDark) {
+      canvas.drawRect(
+        rect,
+        Paint()..color = _SplashScreenState.brandBlue.withOpacity(0.06),
+      );
+    }
 
     if (t > 0.10) {
       canvas.drawRect(
@@ -440,8 +449,8 @@ class _NebulaBgPainter extends CustomPainter {
             center: const Alignment(0.0, -0.16),
             radius: 0.82 * t + 0.08,
             colors: [
-              _SplashScreenState.brandBlue.withOpacity(0.10 * t),
-              _SplashScreenState.brandSky.withOpacity(0.05 * t),
+              _SplashScreenState.brandBlue.withOpacity((isDark ? 0.18 : 0.10) * t),
+              _SplashScreenState.brandSky.withOpacity((isDark ? 0.10 : 0.05) * t),
               Colors.transparent,
             ],
             stops: const [0.0, 0.48, 1.0],
