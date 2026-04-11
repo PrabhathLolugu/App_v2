@@ -247,7 +247,7 @@ class _TranslationsStoryGeneratorAs extends TranslationsStoryGeneratorEn {
 	@override String get subtitle => 'নিজৰ শাস্ত্ৰীয় কাহিনী সৃষ্টি কৰক';
 	@override String get quickStart => 'দ্ৰুত আৰম্ভণি';
 	@override String get interactive => 'ইণ্টাৰেক্টিভ';
-	@override String get rawPrompt => 'ৰ\'\$\'+\' প্রম্প্ট';
+	@override String get rawPrompt => 'কাঁচা প্ৰম্প্ট';
 	@override String get yourStoryPrompt => 'আপোনাৰ কাহিনীৰ প্রম্প্ট';
 	@override String get writeYourPrompt => 'আপোনাৰ প্রম্প্ট লিখক';
 	@override String get selectScripture => 'শাস্ত্ৰ বাছনি কৰক';

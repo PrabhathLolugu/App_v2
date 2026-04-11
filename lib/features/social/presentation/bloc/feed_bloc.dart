@@ -82,9 +82,9 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
     required this.prefetchService,
     required this.userBlockService,
     required MyItihasRepository repository,
-    InternetConnection? internetConnection,
+    required InternetConnection internetConnection,
   }) : _repository = repository,
-       _internetConnection = internetConnection ?? InternetConnection(),
+       _internetConnection = internetConnection,
        super(const FeedState.initial()) {
     on<LoadFeedEvent>(_onLoadFeed);
     on<LoadMoreFeedEvent>(_onLoadMore);

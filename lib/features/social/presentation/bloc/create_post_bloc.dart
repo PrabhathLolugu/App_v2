@@ -13,9 +13,11 @@ class CreatePostBloc extends Bloc<CreatePostEvent, CreatePostState> {
   final PostService _postService;
   final InternetConnection _internetConnection;
 
-  CreatePostBloc(this._postService, {InternetConnection? internetConnection})
-    : _internetConnection = internetConnection ?? InternetConnection(),
-      super(const CreatePostState()) {
+  CreatePostBloc(
+    this._postService, {
+    required InternetConnection internetConnection,
+  }) : _internetConnection = internetConnection,
+       super(const CreatePostState()) {
     on<InitializeCreatePostEvent>(_onInitialize);
     on<SelectPostTypeEvent>(_onSelectType);
     on<UpdateContentEvent>(_onUpdateContent);

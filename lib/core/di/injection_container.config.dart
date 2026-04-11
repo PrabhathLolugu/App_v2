@@ -209,11 +209,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i161.InternetConnection>(),
       ),
     );
+<<<<<<< HEAD
     gh.factory<_i339.ConnectivityBloc>(
       () => _i339.ConnectivityBloc(
         reachability: gh<_i695.InternetReachability>(),
       ),
     );
+=======
+>>>>>>> 25d3052 (fix: refresh codegen and cleanup DI warnings)
     gh.lazySingleton<_i51.StoryRemoteDataSource>(
       () => _i51.StoryRemoteDataSourceImpl(gh<_i361.Dio>()),
     );
@@ -369,6 +372,14 @@ extension GetItInjectableX on _i174.GetIt {
         prefetchService: gh<_i854.PrefetchService>(),
       ),
     );
+<<<<<<< HEAD
+=======
+    gh.factory<_i339.ConnectivityBloc>(
+      () => _i339.ConnectivityBloc(
+        reachability: gh<_i695.InternetReachability>(),
+      ),
+    );
+>>>>>>> 25d3052 (fix: refresh codegen and cleanup DI warnings)
     gh.lazySingleton<_i281.CacheCleanupService>(
       () => _i281.CacheCleanupService(
         gh<_i760.CacheSizeMonitor>(),

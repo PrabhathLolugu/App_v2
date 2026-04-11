@@ -19,8 +19,8 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
   /// When false, stream `disconnected` events are ignored (OS often reports them while backgrounded).
   bool _appLifecycleResumed = true;
 
-  ConnectivityBloc({InternetReachability? reachability})
-    : _reachability = reachability ?? InternetReachability.fromConnection(),
+  ConnectivityBloc({required InternetReachability reachability})
+    : _reachability = reachability,
       super(const ConnectivityState.online()) {
     // Register event handlers
     on<CheckConnectivityEvent>(_onCheckConnectivity);

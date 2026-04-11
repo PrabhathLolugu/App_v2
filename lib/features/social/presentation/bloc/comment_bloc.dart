@@ -14,8 +14,8 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
 
   CommentBloc({
     required this.socialRepository,
-    InternetConnection? internetConnection,
-  })  : _internetConnection = internetConnection ?? InternetConnection(),
+    required InternetConnection internetConnection,
+  })  : _internetConnection = internetConnection,
         super(const CommentState.initial()) {
     on<LoadCommentsEvent>(_onLoadComments);
     on<AddCommentEvent>(_onAddComment);
