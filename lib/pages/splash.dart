@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:myitihas/config/routes.dart';
 import 'package:myitihas/core/presentation/bloc/connectivity_bloc.dart';
 import 'package:myitihas/core/presentation/bloc/connectivity_state.dart';
@@ -17,7 +16,7 @@ import 'package:myitihas/services/supabase_service.dart';
 //  DARK  theme: near-black void (#07030F) — violet/indigo nebula — blue glow
 //  LIGHT theme: soft pearl white (#F5F0FF) — violet ink — blue shimmer
 //
-//  Animation Choreography (2 900 ms):
+//  Animation Choreography (4 200 ms):
 //   0.00–0.22  Background blooms from center — nebula gradient expands
 //   0.10–0.45  Sacred Yantra geometry draws itself stroke-by-stroke
 //   0.18–0.50  280-particle galaxy-arm cloud settles
@@ -27,7 +26,7 @@ import 'package:myitihas/services/supabase_service.dart';
 //   0.58–0.78  App name — ink-bleed character reveal  [GLASS BLUE]
 //   0.72–0.88  Ornamental lotus divider scribes outward
 //   0.83–0.97  Tagline words bloom in one-by-one       [GLASS BLUE]
-//   0.88–1.00  Final glow and handoff to route
+//   0.88–1.00  Brand-gradient triple-arc loader        [GLASS BLUE]
 //
 //  Continuous: logo heartbeat, orbital drift, nebula shimmer, grain flicker
 // ═══════════════════════════════════════════════════════════════════════════
@@ -48,6 +47,7 @@ class _SplashScreenState extends State<SplashScreen>
   late final AnimationController _nebulaC;
   late final AnimationController _pulseC;
   late final AnimationController _grainC;
+  late final AnimationController _loadC;
   late final AnimationController _exitC;
 
   // ── Master timeline ───────────────────────────────────────────────────────
@@ -72,47 +72,47 @@ class _SplashScreenState extends State<SplashScreen>
   bool _navigating = false;
 
   // ════════════════════════════════════════════════════════════════════════
-  //  SPLASH PALETTE  — neutral black/white glass only
+  //  BRAND PALETTE  —  both themes derived from #44009F → #0088FF
   // ════════════════════════════════════════════════════════════════════════
 
-  // Core neutral tones (theme-independent)
-  static const Color brandViolet = Color(0xFFE6E6E6);
-  static const Color brandBlue = Color(0xFFCCCCCC);
-  static const Color brandMid = Color(0xFF9E9E9E);
-  static const Color brandLavender = Color(0xFFF2F2F2);
-  static const Color brandSky = Color(0xFFB8B8B8);
-  static const Color brandPeriwink = Color(0xFFDCDCDC);
+  // Core brand colours (theme-independent)
+  static const Color brandViolet = Color(0xFF44009F);
+  static const Color brandBlue = Color(0xFF0088FF);
+  static const Color brandMid = Color(0xFF2244CC);
+  static const Color brandLavender = Color(0xFF8855FF);
+  static const Color brandSky = Color(0xFF44BBFF);
+  static const Color brandPeriwink = Color(0xFF9DB4FF);
 
-  // ── Glass neutral palette (title / tagline / loader) ──────────────────
-  static const Color glassBlueLight = Color(0xFFF7F7F7);
-  static const Color glassBlue = Color(0xFFE3E3E3);
-  static const Color glassBlueMid = Color(0xFFBFBFBF);
-  static const Color glassBlueDeep = Color(0xFF8D8D8D);
-  static const Color glassBlueGlow = Color(0xFFEAEAEA);
+  // ── Glass Blue palette (title / tagline / loader) ─────────────────────
+  static const Color glassBlueLight = Color(0xFFB8E8F5); // icy highlight
+  static const Color glassBlue = Color(0xFF7EC8E3); // core glass blue
+  static const Color glassBlueMid = Color(0xFF4AACCF); // mid depth
+  static const Color glassBlueDeep = Color(0xFF2A8FAF); // dark variant
+  static const Color glassBlueGlow = Color(0xFF9FDAED); // soft glow tint
 
   // ── DARK theme ────────────────────────────────────────────────────────────
-  static const Color dkBg = Color(0xFF070707);
-  static const Color dkSurface = Color(0xFF101010);
-  static const Color dkPrimary = Color(0xFFE5E5E5);
-  static const Color dkPrimaryBright = Color(0xFFF2F2F2);
-  static const Color dkPrimaryDim = Color(0xFF3C3C3C);
-  static const Color dkSecondary = Color(0xFFCDCDCD);
-  static const Color dkSecBright = Color(0xFFEAEAEA);
-  static const Color dkSecDim = Color(0xFF2E2E2E);
-  static const Color dkAccent = Color(0xFFC2C2C2);
-  static const Color dkWhite = Color(0xFFF4F4F4);
-  static const Color dkMuted = Color(0xFF9C9C9C);
+  static const Color dkBg = Color(0xFF07030F);
+  static const Color dkSurface = Color(0xFF0E0720);
+  static const Color dkPrimary = Color(0xFF7744FF);
+  static const Color dkPrimaryBright = Color(0xFFAA88FF);
+  static const Color dkPrimaryDim = Color(0xFF2A0066);
+  static const Color dkSecondary = Color(0xFF0099FF);
+  static const Color dkSecBright = Color(0xFF66CCFF);
+  static const Color dkSecDim = Color(0xFF003366);
+  static const Color dkAccent = Color(0xFFCC44FF);
+  static const Color dkWhite = Color(0xFFF0EEFF);
+  static const Color dkMuted = Color(0xFF8877BB);
 
   // ── LIGHT theme ───────────────────────────────────────────────────────────
-  static const Color ltBg = Color(0xFFFFFFFF);
-  static const Color ltSurface = Color(0xFFF3F3F3);
-  static const Color ltPrimary = Color(0xFF2A2A2A);
-  static const Color ltPrimaryBright = Color(0xFF555555);
-  static const Color ltSecondary = Color(0xFF424242);
-  static const Color ltSecBright = Color(0xFF696969);
-  static const Color ltAccent = Color(0xFF7A7A7A);
-  static const Color ltInk = Color(0xFF141414);
-  static const Color ltMuted = Color(0xFF8A8A8A);
+  static const Color ltBg = Color(0xFFF5F0FF);
+  static const Color ltSurface = Color(0xFFEBE3FF);
+  static const Color ltPrimary = Color(0xFF44009F);
+  static const Color ltPrimaryBright = Color(0xFF7744CC);
+  static const Color ltSecondary = Color(0xFF0055CC);
+  static const Color ltSecBright = Color(0xFF0088FF);
+  static const Color ltAccent = Color(0xFF9922CC);
+  static const Color ltInk = Color(0xFF1A0044);
+  static const Color ltMuted = Color(0xFF7766AA);
 
   Animation<double> _iv(double s, double e, [Curve c = Curves.easeOut]) =>
       CurvedAnimation(
@@ -125,7 +125,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
 
     _masterC = AnimationController(
-      duration: const Duration(milliseconds: 2900),
+      duration: const Duration(milliseconds: 4200),
       vsync: this,
     );
 
@@ -142,7 +142,7 @@ class _SplashScreenState extends State<SplashScreen>
     _finaleGlow = _iv(0.88, 1.00, Curves.easeIn);
 
     _breatheC = AnimationController(
-      duration: const Duration(milliseconds: 2000),
+      duration: const Duration(milliseconds: 2800),
       vsync: this,
     )..repeat(reverse: true);
     _breathe = CurvedAnimation(parent: _breatheC, curve: Curves.easeInOut);
@@ -154,7 +154,7 @@ class _SplashScreenState extends State<SplashScreen>
     _ringPulse = CurvedAnimation(parent: _pulseC, curve: Curves.easeInOut);
 
     _orbitC = AnimationController(
-      duration: const Duration(seconds: 14),
+      duration: const Duration(seconds: 18),
       vsync: this,
     )..repeat();
 
@@ -168,6 +168,11 @@ class _SplashScreenState extends State<SplashScreen>
       vsync: this,
     )..repeat();
 
+    _loadC = AnimationController(
+      duration: const Duration(milliseconds: 1800),
+      vsync: this,
+    );
+
     _exitC = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
@@ -175,10 +180,13 @@ class _SplashScreenState extends State<SplashScreen>
     _exitFade = CurvedAnimation(parent: _exitC, curve: Curves.easeInCubic);
 
     _masterC.forward().then((_) {
-      if (mounted) {
-        _animDone = true;
-        _checkAndNavigate();
-      }
+      _loadC.repeat();
+      Future.delayed(const Duration(milliseconds: 400), () {
+        if (mounted) {
+          _animDone = true;
+          _checkAndNavigate();
+        }
+      });
     });
   }
 
@@ -192,8 +200,12 @@ class _SplashScreenState extends State<SplashScreen>
     _navigating = true;
     _exitC.forward().then((_) {
       if (!mounted) return;
-      // Router redirect keeps splash for unauthenticated users only.
-      const WelcomeRoute().go(context);
+      final isAuthenticated = SupabaseService.getCurrentSession() != null;
+      if (isAuthenticated) {
+        const HomeRoute().go(context);
+      } else {
+        const WelcomeRoute().go(context);
+      }
     });
   }
 
@@ -205,6 +217,7 @@ class _SplashScreenState extends State<SplashScreen>
     _orbitC.dispose();
     _nebulaC.dispose();
     _grainC.dispose();
+    _loadC.dispose();
     _exitC.dispose();
     super.dispose();
   }
@@ -229,6 +242,7 @@ class _SplashScreenState extends State<SplashScreen>
             _orbitC,
             _nebulaC,
             _grainC,
+            _loadC,
             _exitC,
           ]),
           builder: (ctx, _) => Stack(
@@ -346,10 +360,23 @@ class _SplashScreenState extends State<SplashScreen>
                 ),
               ),
 
-              // 8 ── Connectivity hint ───────────────────────────────────────
+              // 8 ── Loader ──────────────────────────────────────────────────
+              Align(
+                alignment: const Alignment(0, 0.92),
+                child: Opacity(
+                  opacity: _finaleGlow.value.clamp(0.0, 1.0),
+                  child: _BrandLoader(
+                    spin: _loadC.value,
+                    pulse: _ringPulse.value,
+                    isDark: isDark,
+                  ),
+                ),
+              ),
+
+              // 9 ── Connectivity hint ───────────────────────────────────────
               _ConnectivityHint(finaleAlpha: _finaleGlow.value, isDark: isDark),
 
-              // 9 ── Exit veil ──────────────────────────────────────────────
+              // 10 ── Exit veil ──────────────────────────────────────────────
               if (_exitFade.value > 0)
                 Positioned.fill(
                   child: IgnorePointer(
@@ -397,10 +424,10 @@ class _NebulaBgPainter extends CustomPainter {
             center: Alignment.center,
             radius: 1.3,
             colors: const [
-              Color(0xFF131313),
-              Color(0xFF0C0C0C),
-              Color(0xFF070707),
-              Color(0xFF030303),
+              Color(0xFF0D0525),
+              Color(0xFF070318),
+              Color(0xFF04010F),
+              Color(0xFF020008),
             ],
             stops: const [0.0, 0.35, 0.65, 1.0],
           ).createShader(rect),
@@ -499,10 +526,10 @@ class _NebulaBgPainter extends CustomPainter {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: const [
-              Color(0xFFFFFFFF),
-              Color(0xFFF9F9F9),
-              Color(0xFFF2F2F2),
-              Color(0xFFEBEBEB),
+              Color(0xFFFBF8FF),
+              Color(0xFFF5F0FF),
+              Color(0xFFEEE6FF),
+              Color(0xFFE8F4FF),
             ],
             stops: const [0.0, 0.35, 0.65, 1.0],
           ).createShader(rect),
@@ -1467,6 +1494,113 @@ class _WordBloomTagline extends StatelessWidget {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+//  BRAND GRADIENT LOADER  ── GLASS BLUE arcs
+// ═══════════════════════════════════════════════════════════════════════════
+class _BrandLoader extends StatelessWidget {
+  final double spin;
+  final double pulse;
+  final bool isDark;
+  const _BrandLoader({
+    required this.spin,
+    required this.pulse,
+    required this.isDark,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 48,
+      height: 48,
+      child: CustomPaint(
+        painter: _BrandArcPainter(spin: spin, pulse: pulse, isDark: isDark),
+      ),
+    );
+  }
+}
+
+class _BrandArcPainter extends CustomPainter {
+  final double spin;
+  final double pulse;
+  final bool isDark;
+  const _BrandArcPainter({
+    required this.spin,
+    required this.pulse,
+    required this.isDark,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final cx = size.width / 2;
+    final cy = size.height / 2;
+
+    // All three arcs use the glass blue scale
+    final colorOuter = isDark
+        ? _SplashScreenState
+              .glassBlueLight // icy white-blue outer ring
+        : _SplashScreenState.glassBlueDeep; // deep glass blue outer ring
+    final colorMiddle = _SplashScreenState.glassBlue; // core glass blue
+    final colorInner = isDark
+        ? _SplashScreenState
+              .glassBlueMid // mid depth inner ring (dark)
+        : _SplashScreenState.glassBlueMid; // same mid on light
+
+    // (radius, color, strokeWidth, phaseOffset, alphaFactor, sweepAngle)
+    final arcs = [
+      (cx - 3.0, colorOuter, 1.5, 0.00, 1.00, math.pi * 1.4),
+      (cx - 6.0, colorMiddle, 1.0, 1.0 / 3.0, 0.75, math.pi * 1.1),
+      (cx - 9.0, colorInner, 0.7, 2.0 / 3.0, 0.55, math.pi * 0.8),
+    ];
+
+    for (final (r, color, width, phaseOff, alphaF, sweep) in arcs) {
+      final start = spin * 2 * math.pi + phaseOff * 2 * math.pi - math.pi / 2;
+      final rect = Rect.fromCircle(center: Offset(cx, cy), radius: r);
+
+      // Glow
+      canvas.drawArc(
+        rect,
+        start,
+        sweep,
+        false,
+        Paint()
+          ..color = color.withOpacity(alphaF * 0.55)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = width * 4
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8),
+      );
+      // Gradient arc — glass blue spectrum sweep
+      canvas.drawArc(
+        rect,
+        start,
+        sweep,
+        false,
+        Paint()
+          ..shader = SweepGradient(
+            colors: [
+              Colors.transparent,
+              colorOuter.withOpacity(alphaF * 0.7),
+              colorInner.withOpacity(alphaF),
+            ],
+            stops: const [0.0, 0.55, 1.0],
+            transform: GradientRotation(start),
+          ).createShader(rect)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = width
+          ..strokeCap = StrokeCap.round,
+      );
+      // Head dot
+      final headA = start + sweep;
+      canvas.drawCircle(
+        Offset(cx + math.cos(headA) * r, cy + math.sin(headA) * r),
+        width * 1.8,
+        Paint()..color = color.withOpacity(alphaF),
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(_BrandArcPainter o) => o.spin != spin;
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
 //  CONNECTIVITY HINT
 // ═══════════════════════════════════════════════════════════════════════════
